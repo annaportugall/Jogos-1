@@ -1,20 +1,20 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     [Header("Waypoints")]
 
     public List<Transform> waypoints;
-
     [Header("Movement Settings")]
 
     public float moveSpeed = 3f;
 
-    public float waypointReachedDistance = 0.1f
+    public float waypointReachedDistance = 0.1f;
 
-    public bool loop = true 
+    public bool loop = true; 
 
-    private RigidBody2D rb;
+    private Rigidbody2D rb;
 
     private int currentWaypointIndex = 0;
 
@@ -22,11 +22,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     void Start(){
 
-        rb = GetComponenent<RigidBody2D>()
+        rb = GetComponent<Rigidbody2D>();
 
         if (waypoints == null || waypoints.Count == 0){
-            Debug.LogError("No waypoints assignet to the enemy!")
-            enable = false 
+            Debug.LogError("No waypoints assignet to the enemy!");
+            enabled = false; 
             return;
         }
 
@@ -35,11 +35,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        MoveTowardsWaypoint()
-        CheckIfWaypointReached()
+        MoveTowardsWayPoint();
+        CheckIfWaypointReached();
     }
 
-    void SetTargetWaypoint(int index)
+    void SetTargetWayPoint(int index)
 {
     if (waypoints.Count == 0) return;
 
@@ -48,12 +48,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
     movementDirection = (targetPosition - (Vector2)transform.position).normalized;
 }
 
-void MoveTowardsWaypoint()
+void MoveTowardsWayPoint()
 {
     if (waypoints.Count == 0) return;
 
     Vector2 targetPosition = waypoints[currentWaypointIndex].position;
-    movementDirection = (targetPosition - (Vector2)transform.position).normalized
+    movementDirection = (targetPosition - (Vector2)transform.position).normalized;
 
     rb.linearVelocity = movementDirection * moveSpeed;
 }
@@ -88,7 +88,7 @@ void GoToNextWaypoint()
         }
     }
 
-    SetTargetWaypoint(currentWaypointIndex);
+    SetTargetWayPoint(currentWaypointIndex);
 }
 
 
