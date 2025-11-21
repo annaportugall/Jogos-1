@@ -3,94 +3,57 @@ using System.Collections.Generic;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
-    [Header("Waypoints")]
+  [Header("Waypoints")]
+public List<Transform> waypoints;
 
-    public List<Transform> waypoints;
-    [Header("Movement Settings")]
+[Header("Movement Settings")]
+public float moveSpeed = 3f;
+public float waypointReachedDistance = 0.1f;
+public bool loop = true;
 
-    public float moveSpeed = 3f;
+[Header("Combat Settings")]
+public float damage = 10f;
+public float attackCooldown = 1f;
+public float knockbackForce = 15f;
 
-    public float waypointReachedDistance = 0.1f;
+private Rigidbody2D rb;
+private int currentWaypointIndex = 0;
+private Vector2 movementDirection;
+private float lastAttackTime;
 
-    public bool loop = true; 
-
-    private Rigidbody2D rb;
-
-    private int currentWaypointIndex = 0;
-
-    private Vector2 movementDirection;
-
-    void Start(){
-
-        rb = GetComponent<Rigidbody2D>();
-
-        if (waypoints == null || waypoints.Count == 0){
-            Debug.LogError("No waypoints assignet to the enemy!");
-            enabled = false; 
-            return;
-        }
-
-        SetTargetWayPoint(currentWaypointIndex);
-    }
-
-    void FixedUpdate()
+// Método chamado quando há colisão com o personagem
+void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Player"))
     {
-        MoveTowardsWayPoint();
-        CheckIfWaypointReached();
-    }
-
-    void SetTargetWayPoint(int index)
-{
-    if (waypoints.Count == 0) return;
-
-    currentWaypointIndex = index;
-    Vector2 targetPosition = waypoints[currentWaypointIndex].position;
-    movementDirection = (targetPosition - (Vector2)transform.position).normalized;
-}
-
-void MoveTowardsWayPoint()
-{
-    if (waypoints.Count == 0) return;
-
-    Vector2 targetPosition = waypoints[currentWaypointIndex].position;
-    movementDirection = (targetPosition - (Vector2)transform.position).normalized;
-
-    rb.linearVelocity = movementDirection * moveSpeed;
-}
-
-void CheckIfWaypointReached()
-{
-    if (waypoints.Count == 0) return;
-
-    float distanceToWaypoint = Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position);
-
-    if (distanceToWaypoint <= waypointReachedDistance)
-    {
-        GoToNextWaypoint();
+        TryAttackPlayer(collision.gameObject);
     }
 }
-void GoToNextWaypoint()
-{
-    currentWaypointIndex++;
 
-    if (currentWaypointIndex >= waypoints.Count)
+// Método chamado enquanto o inimigo está colidindo com o personagem
+void OnCollisionStay2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Player"))
     {
-        if (loop)
+        TryAttackPlayer(collision.gameObject);
+    }
+}
+
+void TryAttackPlayer(GameObject player)
+{
+    // Verifica se pode atacar (cooldown)
+    if (Time.time >= lastAttackTime + attackCooldown)
+    {
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            currentWaypointIndex = 0;
-        }
-        else
-        {
-        
-            enabled = false;
-            rb.linearVelocity = Vector2.zero;
-            return;
+            // Calcula direção do knockback (do inimigo para o player)
+            Vector2 knockbackDirection = 
+                (player.transform.position - transform.position).normalized;
+
+            playerHealth.TakeDamage(damage, knockbackDirection, knockbackForce);
+            lastAttackTime = Time.time;
         }
     }
-
-    SetTargetWayPoint(currentWaypointIndex);
 }
-
-
-
 }
