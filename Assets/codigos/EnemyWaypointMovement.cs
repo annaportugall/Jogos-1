@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class EnemyWaypointMovement : MonoBehaviour
 {
   [Header("Waypoints")]
 public List<Transform> waypoints;
@@ -21,7 +21,20 @@ private int currentWaypointIndex = 0;
 private Vector2 movementDirection;
 private float lastAttackTime;
 
-// Método chamado quando há colisão com o personagem
+void Start(){
+    rb = GetComponent<Rigidbody2D>();
+
+    if(waypoints == null || waypoints.Count == 0){
+        Debug.LogError("No waypoints assigned to the enemy!")
+        enabled = false
+        return
+    }
+    
+    SetTargetWaypoint(currentWaypointIndex)
+}
+
+void FixedUpdate()
+
 void OnCollisionEnter2D(Collision2D collision)
 {
     if (collision.gameObject.CompareTag("Player"))
@@ -30,7 +43,7 @@ void OnCollisionEnter2D(Collision2D collision)
     }
 }
 
-// Método chamado enquanto o inimigo está colidindo com o personagem
+
 void OnCollisionStay2D(Collision2D collision)
 {
     if (collision.gameObject.CompareTag("Player"))
@@ -41,13 +54,13 @@ void OnCollisionStay2D(Collision2D collision)
 
 void TryAttackPlayer(GameObject player)
 {
-    // Verifica se pode atacar (cooldown)
+    
     if (Time.time >= lastAttackTime + attackCooldown)
     {
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
-            // Calcula direção do knockback (do inimigo para o player)
+            
             Vector2 knockbackDirection = 
                 (player.transform.position - transform.position).normalized;
 
