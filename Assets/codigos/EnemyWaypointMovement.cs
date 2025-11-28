@@ -25,15 +25,44 @@ void Start(){
     rb = GetComponent<Rigidbody2D>();
 
     if(waypoints == null || waypoints.Count == 0){
-        Debug.LogError("No waypoints assigned to the enemy!")
-        enabled = false
-        return
+        Debug.LogError("No waypoints assigned to the enemy!");
+        enabled = false;
+        return;
     }
     
-    SetTargetWaypoint(currentWaypointIndex)
+    SetTargetWaypoint(currentWaypointIndex);
 }
 
-void FixedUpdate()
+void FixedUpdate(){
+    MoveTowardsWaypoint();
+    CheckIfWaypointReached();
+
+}
+
+void SetTargetWaypoint(int index){
+    if (waypoints.Count == 0) return;
+
+    currentWaypointIndex = index;
+    Vector2 targetPosition = waypoints[currentWaypointIndex].position;
+    movementDirection = (targetPosition - (Vector2)transform.position).normalized;
+
+
+}
+
+void MoveTowardsWaypoint(){
+    if(waypoints.Count == 0) return;
+
+   Vector2 targetPosition = waypoints[currentWaypointIndex].position;
+    movementDirection = (targetPosition - (Vector2)transform.position).normalized;
+
+    rb.linearVelocity = movementDirection * moveSpeed;
+}
+
+void CheckIfWaypointReached(){
+
+
+}
+
 
 void OnCollisionEnter2D(Collision2D collision)
 {
