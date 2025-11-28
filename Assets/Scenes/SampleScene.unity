@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1341665}
   - component: {fileID: 1341664}
+  - component: {fileID: 1341666}
   - component: {fileID: 1341663}
   - component: {fileID: 1341662}
   m_Layer: 0
@@ -249,6 +250,20 @@ Transform:
   - {fileID: 1641742623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1341666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d104401413bfadc43bfcee620c435ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &87205294
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,7 +649,7 @@ MonoBehaviour:
   loop: 1
   damage: 10
   attackCooldown: 1
-  knockbackForce: 15
+  knockbackForce: 70
 --- !u!61 &343272866
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1305,7 +1320,7 @@ Transform:
   m_GameObject: {fileID: 618953693}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.13, z: 0}
+  m_LocalPosition: {x: 0, y: 1.86, z: 0}
   m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
   m_ConstrainProportionsScale: 1
   m_Children: []

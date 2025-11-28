@@ -17,8 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= damage;
         Debug.Log("Player levou dano! Vida atual: " + currentHealth);
-
-        // Aplica knockback
+ 
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
 
         if (currentHealth <= 0)

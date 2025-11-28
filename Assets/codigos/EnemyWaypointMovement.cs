@@ -71,7 +71,7 @@ void CheckIfWaypointReached(){
 
 void GoToNextWaypoint(){
 
-    currentWaypointIndex++
+    currentWaypointIndex++;
 
     if(currentWaypointIndex >= waypoints.Count){
         if(loop){
@@ -114,8 +114,7 @@ void TryAttackPlayer(GameObject player)
         if (playerHealth != null)
         {
             
-            Vector2 knockbackDirection = 
-                (player.transform.position - transform.position).normalized;
+            Vector2 knockbackDirection =  (player.transform.position - transform.position).normalized;
 
             playerHealth.TakeDamage(damage, knockbackDirection, knockbackForce);
             lastAttackTime = Time.time;
