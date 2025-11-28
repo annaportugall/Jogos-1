@@ -59,8 +59,32 @@ void MoveTowardsWaypoint(){
 }
 
 void CheckIfWaypointReached(){
+    if(waypoints.Count == 0) return;
 
+    float distanceToWaypoint = Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position);
 
+    if(distanceToWaypoint <= waypointReachedDistance){
+        GoToNextWaypoint();
+    }
+
+}
+
+void GoToNextWaypoint(){
+
+    currentWaypointIndex++
+
+    if(currentWaypointIndex >= waypoints.Count){
+        if(loop){
+            currentWaypointIndex = 0;
+        }
+        else{
+            enabled = false;
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+    }
+
+    SetTargetWaypoint(currentWaypointIndex);
 }
 
 
