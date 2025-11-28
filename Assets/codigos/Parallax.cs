@@ -14,8 +14,7 @@ public class Parallax : MonoBehaviour
     {
         cameraTransform = Camera.main.transform;
         lastCameraPosition = cameraTransform.position;
-
-        // Get sprite size for infinite scrolling
+        
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
