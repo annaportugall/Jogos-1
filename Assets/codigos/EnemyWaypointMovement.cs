@@ -33,6 +33,7 @@ void Start(){
     SetTargetWaypoint(currentWaypointIndex);
 }
 
+
 void FixedUpdate(){
     MoveTowardsWaypoint();
     CheckIfWaypointReached();
