@@ -56,6 +56,7 @@ void MoveTowardsWaypoint(){
     movementDirection = (targetPosition - (Vector2)transform.position).normalized;
 
     rb.linearVelocity = new Vector2(movementDirection.x * moveSpeed, rb.linearVelocity.y);
+}
 
 void CheckIfWaypointReached(){
     if(waypoints.Count == 0) return;
@@ -120,9 +121,8 @@ void TryAttackPlayer(GameObject player)
         }
     }
 }
-}
 
-    public void Jump(float jumpForce){
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-    }
+public void Jump(float jumpForce){
+    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
 }
+} 
