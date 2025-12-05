@@ -4,7 +4,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
-
+    public HealthBar healthBar;
     private Rigidbody2D rb;
 
     void Start()
@@ -16,12 +16,14 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage, Vector2 knockbackDirection, float knockbackForce = 10f)
     {
         currentHealth -= damage;
-        Debug.Log("Player levou dano! Vida atual: " + currentHealth);
- 
+        
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
+            Debug.Log("MORRI");
             Die();
         }
     }
