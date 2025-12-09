@@ -2,12 +2,27 @@ using UnityEngine;
 
 public class ScriptMoeda : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other){
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         Debug.Log("Trigger entered by: " + other.gameObject.name);
 
-        if(other.CompareTag("Player")){
+        if (other.CompareTag("Player"))
+        {
             Debug.Log("Player entered the trigger!");
-            Destroy(gameObject);
+
+            // Tenta pegar o CoinCollector no jogador
+            CoinCollector coinCollector = other.GetComponent<CoinCollector>();
+
+            if (coinCollector != null)
+            {
+                coinCollector.CollectCoin(); // adiciona moeda
+            }
+            else
+            {
+                Debug.LogWarning("O player não tem CoinCollector!");
+            }
+
+            Destroy(gameObject); // destrói a moeda
         }
     }
 }
